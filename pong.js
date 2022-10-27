@@ -109,7 +109,9 @@ window.onload = function () {
 
         //Bounce the ball off the left side, if it touches the paddle. Otherwise give a point to the other player and reset the ball
         if (ball_x < 0) {
-            if (ball_y > (paddle1_y - (paddle_height/2)) && ball_y < (paddle1_y + (paddle_height/2)) && ball_x - ball_x/2 < canvas.width - paddle_thickness) {
+            if (ball_y > paddle1_y && ball_y < paddle1_y + paddle_height) {
+                delta_y = ball_y - (paddle1_y + paddle_height/2);
+                y_velocity = delta_y * 0.2;
                 x_velocity = -x_velocity;
             } else {
                 player2_score++;
@@ -119,7 +121,9 @@ window.onload = function () {
 
         //Same on the right side
         if (ball_x > canvas.width) {
-            if (ball_y > paddle2_y - paddle_height/2 && ball_y < paddle2_y + paddle_height/2) {
+            if (ball_y > paddle2_y && ball_y < paddle2_y + paddle_height) {
+                delta_y = ball_y - (paddle2_y + paddle_height/2);
+                y_velocity = delta_y * 0.2;
                 x_velocity = -x_velocity;
             } else {
                 player1_score++;
