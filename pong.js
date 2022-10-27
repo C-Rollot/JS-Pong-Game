@@ -50,7 +50,7 @@ var ball_dimension = 15;
 //Set speed variables
 var x_velocity = 5;
 var y_velocity = x_velocity;
-var computer_speed = 4;
+var computer_speed = 5;
 
 //Create variables to hold player scores
 var player1_score = 0;
@@ -70,9 +70,9 @@ window.onload = function () {
 
     /*Control user paddle:
     clientY read-only property returns the vertical coordinate within the application's cleint area at which the event occurred (as opposed to the coordinates within the page)*/
-    canvas.addEventListener("mousemove", function(e) {
+    /*canvas.addEventListener("mousemove", function(e) {
         paddle1_y = e.clientY - paddle_height/2;
-    });
+    });*/
 
     function reset_ball() {
         //Reset the ball's placement and direction after scoring
@@ -179,6 +179,38 @@ window.onload = function () {
             }
         }
     }
+
+    //Keyboard controls
+    let upPressed = false;
+    let downPressed = false;
+
+    function keyDownHandler(e) {
+        if(e.key == "Right" || e.key == "ArrowRight") {
+            upPressed = true;
+        } else if(e.key == "Left" || e.key == "ArrowLeft") {
+            downPressed = true;
+        }
+    }
+
+    function keyUpHandler(e) {
+        if(e.key == "Right" || e.key == "ArrowRight") {
+            upPressed = false;
+        } else if(e.key == "Left" || e.key == "ArrowLeft") {
+            downPressed = false;
+        }
+    }
+
+    if(upPressed)  {
+        paddle1_y += 5;
+    }
+
+    if(downPressed) {
+        paddle1_y -= 5;
+    }
+
+    //Event listeners
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
 
     function run() {
         move_ball();
