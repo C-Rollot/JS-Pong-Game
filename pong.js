@@ -70,10 +70,10 @@ window.onload = function () {
 
     /*Control user paddle:
     clientY read-only property returns the vertical coordinate within the application's cleint area at which the event occurred (as opposed to the coordinates within the page)*/
-    /*canvas.addEventListener("mousemove", function(e) {
+    canvas.addEventListener("mousemove", function(e) {
         paddle1_y = e.clientY - paddle_height/2;
-    });*/
-
+    });
+    
     function reset_ball() {
         //Reset the ball's placement and direction after scoring
         ball_x = canvas.width/2;
@@ -185,17 +185,17 @@ window.onload = function () {
     let downPressed = false;
 
     function keyDownHandler(e) {
-        if(e.key == "Right" || e.key == "ArrowRight") {
+        if(e.key == "Up" || e.key == "ArrowUp") {
             upPressed = true;
-        } else if(e.key == "Left" || e.key == "ArrowLeft") {
+        } else if(e.key == "Down" || e.key == "ArrowDown") {
             downPressed = true;
         }
     }
 
     function keyUpHandler(e) {
-        if(e.key == "Right" || e.key == "ArrowRight") {
+        if(e.key == "Up" || e.key == "ArrowUp") {
             upPressed = false;
-        } else if(e.key == "Left" || e.key == "ArrowLeft") {
+        } else if(e.key == "Down" || e.key == "ArrowDown") {
             downPressed = false;
         }
     }
