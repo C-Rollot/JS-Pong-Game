@@ -225,6 +225,7 @@ window.onload = function () {
 
 let canvas;
 let game;
+let anim;
 
 const player_height = 100;
 const player_width = 5;
@@ -259,8 +260,62 @@ function play() {
     game.ball.x += game.ball.speed.x;
     game.ball.y += game.ball.speed.y;
     draw();
+    computerMove();
+    ballMove();
 
-    requestAnimationFrame(play);
+    anim = requestAnimationFrame(play);
+}
+
+function ballMove() {
+    //Bounces on top and bottom
+    if (game.ball.y > canvas.height || game.ball.y < 0) {
+        game.ball.speed.y = -game.ball.speed.y;
+    }
+
+    //Bounces on paddles
+    if (game.ball.x > canvas.width - player_width) {
+        collide(game.computer);
+    } else if (game.ball.x < player_width) {
+        collide(game.player);
+    }
+
+    function changeDirection(playerPosition) {
+        let impact = game.ball.y - playerPosition - player_height/2;
+        let ratio = 100 / (player_height/2);
+
+        //Get a value between 0 and 10
+        game.ball.speed.y = Math.round(impact * ratio /10);
+    }
+
+    function collide(player) {
+        //The player does not hit the ball
+        if (game.ball.y < player.y || game.ball.y > player.y + player_height) {
+            //Set ball and players to the center
+            game.ball.x = canvas.width/2;
+            game.ball.y = canvas.height/2;
+            game.player.y = canvas.height/2 - player_height/2;
+            game.computer.y = canvas.height/2 - player_height/2;
+
+            //Reset speed
+            game.ball.speed.x = 2;
+        } else {
+            //Increases speed and changes direction
+            game.ball.speed.x *= -1.2;
+            changeDirection(player.y);
+        }
+
+        //Update score
+        if (player == game.player) {
+            game.computer.score++;
+            document.querySelector("#computer-score").textContent = game.computer.score;
+        } else {
+            game.player.score++;
+            document.querySelector("#player-score").textContent = game.player.score;
+        }
+    }
+
+    game.ball.x += game.ball.speed.x;
+    game.ball.y += game.ball.speed.y;
 }
 
 function playerMove(event) {
@@ -269,20 +324,31 @@ function playerMove(event) {
     let mouseLocation = event.clientY - canvasLocation.y;
 
     game.player.y = mouseLocation - player_height/2;
+
+    if (mouseLocation < player_height/2) {
+        game.player.y = 0;
+    } else if (mouseLocation > canvas.height - player_height/2) {
+        game.player.y = canvas.height - player_height;
+    } else {
+        game.player.y = mouseLocation - player_height/2;
+    }
 }
-//REGLER PROBLEME EVENTLISTENER AVANT D'ALLER PLUS LOIN /!\
-//Mouse move event
-canvas.addEventListener("mousemove", playerMove);
+
+function computerMove() {
+    game.computer.y += game.ball.speed.y * 0.98;
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     canvas = document.getElementById("canvas");
 
     game = {
         player: {
-            y: canvas.height/2 - player_height/2
+            y: canvas.height/2 - player_height/2,
+            score: 0
         },
         computer: {
-            y: canvas.height/2 - player_height/2
+            y: canvas.height/2 - player_height/2,
+            score: 0
         },
         ball: {
             x: canvas.width/2,
@@ -295,6 +361,33 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    //Mouse move event
+    canvas.addEventListener("mousemove", playerMove);
+
     draw();
-    play();
+    document.querySelector("#start-game").addEventListener("click", play);
+    document.querySelector("#stop-game").addEventListener("click", stop);
+
+    function stop() {
+        cancelAnimationFrame(anim);
+
+        //Set ball and players to the center
+        game.ball.x = canvas.width/2;
+        game.ball.y = canvas.height/2;
+        game.player.y = canvas.height/2 - player_height/2;
+        game.computer.y = canvas.height/2 - player_height/2;
+
+        //Reset speed
+        game.ball.speed.x = 2;
+        game.ball.speed.y = 2;
+
+        //Init score
+        game.computer.score = 0;
+        game.player.score = 0;
+
+        document.querySelector("#computer-score").textContent = game.computer.score;
+        document.querySelector("#player-score").textContent = game.player.score;
+
+        draw();
+    }
 });

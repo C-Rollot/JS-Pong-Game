@@ -1,14 +1,7 @@
-/*body {
-    background-color: darkslategrey;
+ul {
+    list-style: none;
+    padding: 0;
 }
-
-canvas {
-    background-color: grey;
+li {
+    display: inline-block;
 }
-
-button {
-    width: 100px;
-    margin-left: 900px;
-    margin-top: 25px;
-}*/
-
