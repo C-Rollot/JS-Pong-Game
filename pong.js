@@ -30,7 +30,7 @@ function game() {
         drawBall();
     }
     setInterval(draw, 10);
-}*/
+}
 
 //Set paddle position
 var paddle1_y = 40;
@@ -68,8 +68,8 @@ window.onload = function () {
     //Set frame rate to 60 frames per second
     let run_game = setInterval(run, 1000/60);
 
-    /*Control user paddle:
-    clientY read-only property returns the vertical coordinate within the application's cleint area at which the event occurred (as opposed to the coordinates within the page)*/
+    Control user paddle:
+    clientY read-only property returns the vertical coordinate within the application's cleint area at which the event occurred (as opposed to the coordinates within the page)
     canvas.addEventListener("mousemove", function(e) {
         paddle1_y = e.clientY - paddle_height/2;
     });
@@ -219,4 +219,82 @@ window.onload = function () {
         setup_canvas();
         did_player_win();
     }
+}*/
+
+"use strict";
+
+let canvas;
+let game;
+
+const player_height = 100;
+const player_width = 5;
+
+function draw() {
+    let context = canvas.getContext("2d");
+
+    //Draw field
+    context.fillStyle = "Black";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    //Draw middle line
+    context.strokeStyle = "White";
+    context.beginPath();
+    context.moveTo(canvas.width/2, 0);
+    context.lineTo(canvas.width/2, canvas.height);
+    context.stroke();
+
+    //Draw players
+    context.fillStyle = "white";
+    context.fillRect(0, game.player.y, player_width, player_height);
+    context.fillRect(canvas.width - player_width, game.computer.y, player_width, player_height);
+
+    //Draw ball
+    context.beginPath();
+    context.fillStyle = "white";
+    context.arc(game.ball.x, game.ball.y, game.ball.r, 0, Math.PI*2, false);
+    context.fill();
 }
+
+function play() {
+    game.ball.x += game.ball.speed.x;
+    game.ball.y += game.ball.speed.y;
+    draw();
+
+    requestAnimationFrame(play);
+}
+
+function playerMove(event) {
+    //Get the mouse location in the canvas
+    let canvasLocation = canvas.getBoundingClientRect();
+    let mouseLocation = event.clientY - canvasLocation.y;
+
+    game.player.y = mouseLocation - player_height/2;
+}
+//REGLER PROBLEME EVENTLISTENER AVANT D'ALLER PLUS LOIN /!\
+//Mouse move event
+canvas.addEventListener("mousemove", playerMove);
+
+document.addEventListener("DOMContentLoaded", function() {
+    canvas = document.getElementById("canvas");
+
+    game = {
+        player: {
+            y: canvas.height/2 - player_height/2
+        },
+        computer: {
+            y: canvas.height/2 - player_height/2
+        },
+        ball: {
+            x: canvas.width/2,
+            y: canvas.height/2,
+            r: 5,
+            speed: {
+                x: 2,
+                y: 2
+            }
+        }
+    }
+
+    draw();
+    play();
+});
