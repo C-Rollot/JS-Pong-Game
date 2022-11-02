@@ -258,7 +258,6 @@ function draw() {
 
 function play() {
     game.ball.x += game.ball.speed.x;
-    game.ball.y += game.ball.speed.y;
     draw();
     computerMove();
     ballMove();
@@ -289,7 +288,7 @@ function ballMove() {
 
     function collide(player) {
         //The player does not hit the ball
-        if (game.ball.y < player.y || game.ball.y > player.y + player_height) {
+        if (game.ball.y < player.y && game.ball.x < player_width || game.ball.y < player.y && game.ball.x > canvas.width - player_width || game.ball.y > player.y + player_height && game.ball.x < player_width || game.ball.y < player.y && game.ball.x > canvas.width - player_width) {
             //Set ball and players to the center
             game.ball.x = canvas.width/2;
             game.ball.y = canvas.height/2;
@@ -304,13 +303,25 @@ function ballMove() {
             changeDirection(player.y);
         }
 
+        //MS Gothic
+
         //Update score
         if (player == game.player) {
             game.computer.score++;
             document.querySelector("#computer-score").textContent = game.computer.score;
+            console.log("Computer scores");
         } else {
             game.player.score++;
             document.querySelector("#player-score").textContent = game.player.score;
+            console.log("Player 1 scores");
+        }
+
+        if (game.player.score == 5) {
+            alert("Game Over, Player 1 wins.");
+            location.reload();
+        } else if (game.computer.score == 5) {
+            alert("Game Over, Computer wins.");
+            location.reload();
         }
     }
 
