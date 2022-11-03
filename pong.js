@@ -63,45 +63,6 @@ function ballMove() {
         game.ball.speed.y = Math.round(impact * ratio /10);
     }
 
-    /*function collide(player) {
-        //The player does not hit the ball
-        if (game.ball.y < game.player.y && game.ball.x < player_width || game.ball.y < game.player.y && game.ball.x > canvas.width - player_width || game.ball.y > game.player.y + player_height && game.ball.x < 0 || game.ball.y > game.player.y + player_height && game.ball.x > canvas.width) {
-            //Set ball and players to the center
-            game.ball.x = canvas.width/2;
-            game.ball.y = canvas.height/2;
-            game.player.y = canvas.height/2 - player_height/2;
-            game.computer.y = canvas.height/2 - player_height/2;
-
-            //Reset speed
-            game.ball.speed.x = 2;
-        } else {
-            //Increases speed and changes direction
-            game.ball.speed.x *= -1.2;
-            changeDirection(player.y);
-        }
-
-        //MS Gothic
-
-        //Update score
-        if (player == game.player) {
-            game.computer.score++;
-            document.querySelector("#computer-score").textContent = game.computer.score;
-            console.log("Computer scores");
-        } else {
-            game.player.score++;
-            document.querySelector("#player-score").textContent = game.player.score;
-            console.log("Player 1 scores");
-        }
-
-        if (game.player.score == 5) {
-            alert("Game Over, Player 1 wins.");
-            location.reload();
-        } else if (game.computer.score == 5) {
-            alert("Game Over, Computer wins.");
-            location.reload();
-        }
-    }*/
-
     function collide_player() {
         if (game.ball.x < player_width && game.ball.y > game.player.y && game.ball.y < game.player.y + player_height) {
             console.log("Pong");
@@ -153,11 +114,11 @@ function ballMove() {
     if (game.computer.score == 5) {
         console.log("Game Over, computer wins.");
         document.getElementById("win_message").innerHTML = "Game Over, computer wins.";
-        stop();
+        window.location.reload();
     } else if (game.player.score == 5) {
         console.log("Game Over, Player 1 wins.");
         document.getElementById("win_message").innerHTML = "Game Over! You Win!";
-        stop();
+        window.location.reload();
     }
     
     game.ball.x += game.ball.speed.x;
