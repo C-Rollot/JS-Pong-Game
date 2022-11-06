@@ -4,6 +4,7 @@ let canvas;
 let game;
 let anim;
 
+//Paddles dimensions
 const player_height = 100;
 const player_width = 5;
 
@@ -34,7 +35,9 @@ function draw() {
 }
 
 function play() {
+    //Ball speed
     game.ball.x += game.ball.speed.x;
+
     draw();
     computerMove();
     ballMove();
@@ -111,6 +114,7 @@ function ballMove() {
         }
     }
 
+    //Win / Lose conditions and events
     if (game.computer.score == 5) {
         console.log("Game Over, computer wins.");
         document.getElementById("win_message").innerHTML = "Game Over, computer wins.";
@@ -141,8 +145,9 @@ function playerMove(event) {
     }
 }
 
+//IA speed
 function computerMove() {
-    game.computer.y += game.ball.speed.y * 0.75;
+    game.computer.y += game.ball.speed.y * 0.80;
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -175,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector("#start-game").addEventListener("click", play);
     document.querySelector("#stop-game").addEventListener("click", stop);
 
+    //Stop the game
     function stop() {
         cancelAnimationFrame(anim);
 
