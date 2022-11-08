@@ -205,3 +205,34 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 });
+
+//Thanks for reading / Merci d'avoir lu mon code!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//COUCOU BEN
