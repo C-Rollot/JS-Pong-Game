@@ -4,30 +4,30 @@ let canvas;
 let game;
 let anim;
 
-//Paddles dimensions
+//Paddles dimensions / Dimensions des raquettes
 const player_height = 100;
 const player_width = 5;
 
 function draw() {
     let context = canvas.getContext("2d");
 
-    //Draw field
+    //Draw field / Création du "terrain"
     context.fillStyle = "Black";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    //Draw middle line
+    //Draw middle line / Création de la ligne médiane
     context.strokeStyle = "White";
     context.beginPath();
     context.moveTo(canvas.width/2, 0);
     context.lineTo(canvas.width/2, canvas.height);
     context.stroke();
 
-    //Draw players
+    //Draw players / Création des joueurs ou raquettes
     context.fillStyle = "white";
     context.fillRect(0, game.player.y, player_width, player_height);
     context.fillRect(canvas.width - player_width, game.computer.y, player_width, player_height);
 
-    //Draw ball
+    //Draw ball / Création de la balle
     context.beginPath();
     context.fillStyle = "white";
     context.arc(game.ball.x, game.ball.y, game.ball.r, 0, Math.PI*2, false);
@@ -35,7 +35,7 @@ function draw() {
 }
 
 function play() {
-    //Ball speed
+    //Ball speed / Vitesse de la balle
     game.ball.x += game.ball.speed.x;
 
     draw();
@@ -46,12 +46,12 @@ function play() {
 }
 
 function ballMove() {
-    //Bounces on top and bottom
+    //Bounces on top and bottom / Rebonds sur les bords supérieur et inférieur
     if (game.ball.y > canvas.height || game.ball.y < 0) {
         game.ball.speed.y = -game.ball.speed.y;
     }
 
-    //Bounces on paddles
+    //Bounces on paddles / Rebonds sur les raquettes
     if (game.ball.x > canvas.width - player_width) {
         collide_computer(game.computer);
     } else if (game.ball.x < player_width) {
@@ -62,7 +62,7 @@ function ballMove() {
         let impact = game.ball.y - playerPosition - player_height/2;
         let ratio = 100 / (player_height/2);
 
-        //Get a value between 0 and 10
+        //Get a value between 0 and 10 / Obtenir une valeur entre 0 et 10
         game.ball.speed.y = Math.round(impact * ratio /10);
     }
 
@@ -70,20 +70,20 @@ function ballMove() {
         if (game.ball.x < player_width && game.ball.y > game.player.y && game.ball.y < game.player.y + player_height) {
             console.log("Pong");
             game.ball.speed.x = -game.ball.speed.x;
-            //Increases speed and changes direction
+            //Increases speed and changes ball's direction / Augmenter la vitesse de la balle et changer sa direction
             game.ball.speed.x *= 1.05;
             changeDirection(game.player.y);
         } else {
-            //Set ball and players to the center
+            //Set ball and players to the center / Remettre la balle et les joueurs au centre
             game.ball.x = canvas.width/2;
             game.ball.y = canvas.height/2;
             game.player.y = canvas.height/2 - player_height/2;
             game.computer.y = canvas.height/2 - player_height/2;
 
-            //Reset speed
+            //Reset ball's speed / Réinitialiser la vitesse de la balle
             game.ball.speed.x = 2;
 
-            //Update score
+            //Update score / Mettre le score à jour
             game.computer.score++;
             document.querySelector("#computer-score").textContent = game.computer.score;
             console.log("Computer scores");
@@ -94,27 +94,27 @@ function ballMove() {
         if (game.ball.x > canvas.width - player_width && game.ball.y > game.computer.y && game.ball.y < game.computer.y + player_height) {
             console.log("Ping");
             game.ball.speed.x = -game.ball.speed.x;
-            //Increases speed and changes direction
+            //Increases speed and changes ball's direction / Augmenter la vitesse de la balle et changer sa direction
             game.ball.speed.x *= 1.05;
             changeDirection(game.computer.y);
         } else {
-            //Set ball and players to the center
+            //Set ball and players to the center / Remettre la balle et les joueurs au centre
             game.ball.x = canvas.width/2;
             game.ball.y = canvas.height/2;
             game.player.y = canvas.height/2 - player_height/2;
             game.computer.y = canvas.height/2 - player_height/2;
 
-            //Reset speed
+            //Reset ball's speed / Réinitialiser la vitesse de la balle
             game.ball.speed.x = 2;
 
-            //Update score
+            //Update score / Mettre le score à jour
             game.player.score++;
             document.querySelector("#player-score").textContent = game.player.score;
             console.log("Player scores");
         }
     }
 
-    //Win / Lose conditions and events
+    //Win / Lose conditions and events / Conditions de victoire / défaite et évènements
     if (game.computer.score == 5) {
         console.log("Game Over, computer wins.");
         document.getElementById("win_message").innerHTML = "Game Over, computer wins.";
@@ -130,7 +130,7 @@ function ballMove() {
 }
 
 function playerMove(event) {
-    //Get the mouse location in the canvas
+    //Get the mouse location in the canvas / Récupérer la position de la souris dans le canevas
     let canvasLocation = canvas.getBoundingClientRect();
     let mouseLocation = event.clientY - canvasLocation.y;
 
@@ -145,7 +145,7 @@ function playerMove(event) {
     }
 }
 
-//IA speed
+//AI speed / Vitesse de l'IA
 function computerMove() {
     game.computer.y += game.ball.speed.y * 0.80;
 }
@@ -173,28 +173,28 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    //Mouse move event
+    //Mouse move event / Evènement de mouvement de la souris
     canvas.addEventListener("mousemove", playerMove);
 
     draw();
     document.querySelector("#start-game").addEventListener("click", play);
     document.querySelector("#stop-game").addEventListener("click", stop);
 
-    //Stop the game
+    //Stop the game / Arrêter le jeu
     function stop() {
         cancelAnimationFrame(anim);
 
-        //Set ball and players to the center
+        //Set ball and players to the center / Remettre la balle et les joueurs au centre
         game.ball.x = canvas.width/2;
         game.ball.y = canvas.height/2;
         game.player.y = canvas.height/2 - player_height/2;
         game.computer.y = canvas.height/2 - player_height/2;
 
-        //Reset speed
+        //Reset ball's speed / Réinitialiser la vitesse de la balle
         game.ball.speed.x = 2;
         game.ball.speed.y = 2;
 
-        //Init score
+        //Reset score / Réinitialiser le score
         game.computer.score = 0;
         game.player.score = 0;
 
