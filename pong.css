@@ -1,10 +1,19 @@
+
+
 @font-face {
     font-family: 'digital7';
     src: url('polices/digital-7/digital-7.ttf');
 }
 
+/* 
+Pour les styles css il n'est pas recommandé d'utiliser les balises. 
+Il vaut mieux créer des classes 
+*/
+
 body {
     background-color: black;
+    /* mets ta font-family ici, ça évite les répétitions (DRY => don't repeat yourself)  */
+    /* pareil pour la color */
 }
 
 ul {

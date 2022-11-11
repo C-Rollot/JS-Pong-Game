@@ -1,3 +1,4 @@
+// Il faut enlever les console.log :)
 "use strict";
 
 let canvas;
@@ -85,6 +86,8 @@ function ballMove() {
 
             //Update score / Mettre le score à jour
             game.computer.score++;
+
+            // Si tu utilises des id dans ton HTML, utilises getElementById ça améliore la performance
             document.querySelector("#computer-score").textContent = game.computer.score;
             console.log("Computer scores");
         }
@@ -115,8 +118,14 @@ function ballMove() {
     }
 
     //Win / Lose conditions and events / Conditions de victoire / défaite et évènements
+    // Prend l'habitude de vérifier une égalité stricte en utilisant === au lieu de ==
+    // En effet == vérifie juste le contenu. En gros 5 == "5" => return true, alors que 5 === "5" => return false.
+    // car avec === il vérifie la valeur mais aussi le type de la valeur et c'est une bonne pratique
+    // Dans ce code ce n'est pas très dérangeant mais ça peut vite créer des effets de bord indésirable.
     if (game.computer.score == 5) {
         console.log("Game Over, computer wins.");
+        // ATTENTION !!!!! innerHTML ne doit jamais être utilisé !! ceci crée une faille de sécurité XSS !
+        // Utilise plutôt textContent. Voilà pourquoi => https://medium.com/@izadzandi/javascript-innerhtml-quand-lutiliser-915846ab0056
         document.getElementById("win_message").innerHTML = "Game Over, computer wins.";
         window.location.reload();
     } else if (game.player.score == 5) {
@@ -177,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
     canvas.addEventListener("mousemove", playerMove);
 
     draw();
+    
     document.querySelector("#start-game").addEventListener("click", play);
     document.querySelector("#stop-game").addEventListener("click", stop);
 
