@@ -10,17 +10,17 @@
 
   <h1>Pong</h1>
 
-  <!-- Le choix de la balise <em> n'est pas bon, il vaut mieux gérer ça en css -->
-  <p><em id="player-score">0</em> - <em id="computer-score">0</em></p>
+  <div id="score">
+      <p id="player-score">0-</p><p id="computer-score"> 0</p>
+  </div>
 
   <ul>
     <li>
-      <!-- Les boutons doivent avoir un type (type="button" ou type="submit" si c'est un formulaire) -->
-      <button id="start-game">Demarrer</button>
+      <button type="button" id="start-game">Demarrer</button>
     </li>
 
     <li>
-      <button id="stop-game">Arreter</button>
+      <button type="button" id="stop-game">Arreter</button>
     </li>
   </ul>
 

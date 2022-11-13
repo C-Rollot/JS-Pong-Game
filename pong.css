@@ -5,15 +5,10 @@
     src: url('polices/digital-7/digital-7.ttf');
 }
 
-/* 
-Pour les styles css il n'est pas recommandé d'utiliser les balises. 
-Il vaut mieux créer des classes 
-*/
-
 body {
     background-color: black;
-    /* mets ta font-family ici, ça évite les répétitions (DRY => don't repeat yourself)  */
-    /* pareil pour la color */
+    font-family: digital7;
+    color: palegreen;
 }
 
 ul {
@@ -56,4 +51,12 @@ button {
 button:hover {
     background-color: white;
     color: black;
+}
+
+#score {
+    display: flex;
+    max-width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    font-style: italic;
 }

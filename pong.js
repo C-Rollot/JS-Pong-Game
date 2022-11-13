@@ -1,4 +1,3 @@
-// Il faut enlever les console.log :)
 "use strict";
 
 let canvas;
@@ -69,7 +68,6 @@ function ballMove() {
 
     function collide_player() {
         if (game.ball.x < player_width && game.ball.y > game.player.y && game.ball.y < game.player.y + player_height) {
-            console.log("Pong");
             game.ball.speed.x = -game.ball.speed.x;
             //Increases speed and changes ball's direction / Augmenter la vitesse de la balle et changer sa direction
             game.ball.speed.x *= 1.05;
@@ -88,14 +86,12 @@ function ballMove() {
             game.computer.score++;
 
             // Si tu utilises des id dans ton HTML, utilises getElementById ça améliore la performance
-            document.querySelector("#computer-score").textContent = game.computer.score;
-            console.log("Computer scores");
+            document.getElementById("computer-score").textContent = game.computer.score;
         }
     }
 
     function collide_computer() {
         if (game.ball.x > canvas.width - player_width && game.ball.y > game.computer.y && game.ball.y < game.computer.y + player_height) {
-            console.log("Ping");
             game.ball.speed.x = -game.ball.speed.x;
             //Increases speed and changes ball's direction / Augmenter la vitesse de la balle et changer sa direction
             game.ball.speed.x *= 1.05;
@@ -112,25 +108,17 @@ function ballMove() {
 
             //Update score / Mettre le score à jour
             game.player.score++;
-            document.querySelector("#player-score").textContent = game.player.score;
-            console.log("Player scores");
+            document.getElementById("player-score").textContent = game.player.score;
         }
     }
 
     //Win / Lose conditions and events / Conditions de victoire / défaite et évènements
-    // Prend l'habitude de vérifier une égalité stricte en utilisant === au lieu de ==
-    // En effet == vérifie juste le contenu. En gros 5 == "5" => return true, alors que 5 === "5" => return false.
-    // car avec === il vérifie la valeur mais aussi le type de la valeur et c'est une bonne pratique
-    // Dans ce code ce n'est pas très dérangeant mais ça peut vite créer des effets de bord indésirable.
-    if (game.computer.score == 5) {
-        console.log("Game Over, computer wins.");
-        // ATTENTION !!!!! innerHTML ne doit jamais être utilisé !! ceci crée une faille de sécurité XSS !
-        // Utilise plutôt textContent. Voilà pourquoi => https://medium.com/@izadzandi/javascript-innerhtml-quand-lutiliser-915846ab0056
-        document.getElementById("win_message").innerHTML = "Game Over, computer wins.";
+
+    if (game.computer.score === 5) {
+        document.getElementById("win_message").textContent = "Game Over, computer wins.";
         window.location.reload();
-    } else if (game.player.score == 5) {
-        console.log("Game Over, Player 1 wins.");
-        document.getElementById("win_message").innerHTML = "Game Over! You Win!";
+    } else if (game.player.score === 5) {
+        document.getElementById("win_message").textContent = "Game Over! You Win!";
         window.location.reload();
     }
     
@@ -208,8 +196,8 @@ document.addEventListener("DOMContentLoaded", function() {
         game.computer.score = 0;
         game.player.score = 0;
 
-        document.querySelector("#computer-score").textContent = game.computer.score;
-        document.querySelector("#player-score").textContent = game.player.score;
+        document.getElementById("computer-score").textContent = game.computer.score;
+        document.getElementById("player-score").textContent = game.player.score;
 
         draw();
     }
@@ -217,32 +205,3 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 //Thanks for reading / Merci d'avoir lu mon code!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//COUCOU BEN
